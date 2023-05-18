@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="esp">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="reset.css">
+        <link rel="stylesheet" href="style.css">
+        <title>Encriptador - Francisco</title>
+    </head>
+    <body>
+        <header>
+            <img class="logo" src="imagenes/Logo.png" alt="Logo encriptador">
+        </header>
+
+        <main>
+            <section class="sifrador">
+                <textarea id="texto_trabajo" class="texto_trabajo" placeholder="Ingresa texto aquí"></textarea>
+                <div class="regla">
+                    <img class="admiracion" src="imagenes/exclamation-circle-fill (1).svg">
+                    <p>Solo letras minúsculas y sin acentos</p>
+                </div>
+                <div class="botones">    
+                    <button class="Enc">Encriptar</button>
+                    <button class="Dese">Desencriptar!</button>
+                </div>
+            </section>
+            <section class="sifrado">
+                <div id="A">    
+                    <img class="hombrebuscando" src="imagenes/Muñeco.png" alt="Hombre buscando">
+                    <div class="mensajes">
+                        <p class="m1">Ningún mensaje fue encontrado</p>
+                        <p class="m2">Ingresa el texto que desees encriptar o desencriptar</p>
+                    </div>
+                </div>
+                <div id="B">
+                    <textarea id="texto_EnDes" class="texto_EnDes"></textarea>
+                    <button class="copiar">Copiar</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+
+        </footer>
+    </body>
+</html>
+
+<script>
+    /*Reglas
+    La letra "e" es convertida para "enter"
+    La letra "i" es convertida para "imes"
+    La letra "a" es convertida para "ai"
+    La letra "o" es convertida para "ober"
+    La letra "u" es convertida para "ufat"*/
+    //Varible para que se muestre y oculte un div
+    var a = document.getElementById('A');
+    var b = document.getElementById('B');
+    var textareaED;
+    var textareaR = document.getElementById('texto_EnDes');
+    var textareaC;
+    var tamano;
+    /*Expresion regular para verificar que sean minusculas de a-z y sin acentos*/
+    const r = /^[a-z\s]+$/;
+    function cambiarBloque(){
+        if (a.style.display == 'block') {
+            a.style.display = 'none';
+            b.style.display = 'block';
+            
+        } else {
+            a.style.display = 'none';
+            b.style.display = 'block';
+            
+        }
+    }
+
+    function verificar(texto,tamano){
+        if(tamano <= 0){
+            alert("No hay texto para encriptar o desencriptar.");
+            return false;
+        }
+        if (r.test(texto)==false){
+      		alert("Tiene acentos, mayusculas o caracteres diferentes a letras. Favor de corregir");
+      		return false;
+   	    }
+        else{
+            return true;
+        }
+    }
+
+    function Encriptar(){
+        textareaED = document.getElementById('texto_trabajo').value;
+        texto = textareaED;
+        tamano = parseInt(document.getElementById('texto_trabajo').value.length);
+        let cadenaencriptada="";
+        var comprobar= verificar(texto,tamano);
+        if(comprobar == true){
+            cambiarBloque();
+            for(var i=0; i < texto.length;i++){
+                if(texto[i] == "a"){
+                    cadenaencriptada += "ai";
+                }else
+                if(texto[i]=='e'){
+                    cadenaencriptada +='enter';
+                }else
+                if(texto[i]=='i'){
+                    cadenaencriptada +='imes';
+                }else
+                if(texto[i]=='o'){
+                    cadenaencriptada +='ober';
+                }else
+                if(texto[i]=='u'){
+                    cadenaencriptada +='ufat';
+                }else{
+                    cadenaencriptada += texto[i];
+                }
+            }
+            textareaR.value = cadenaencriptada;
+        }
+    }
+
+    function Desencriptar() {
+        textareaED = document.getElementById('texto_trabajo').value;
+        texto = textareaED;
+        tamano = parseInt(document.getElementById('texto_trabajo').value.length);
+        let cadenadesencriptada="";
+        var comprobar= verificar(texto,tamano);
+        if(comprobar == true){
+            cambiarBloque();
+            for(var i=0; i < texto.length;i++){
+                if(texto[i] == "a"){
+                    i++;
+                    if(texto[i] == "i"){
+                        cadenadesencriptada += "a";
+                    }
+                }else
+                if(texto[i]=='e'){
+                    i++;
+                    if(texto[i]=='n'){
+                        i++;
+                        if(texto[i]=='t'){
+                            i++;
+                            if(texto[i]=='e'){
+                                i++;
+                                if(texto[i]=='r'){
+                                    cadenadesencriptada +='e';
+                                }
+                            }
+                        }
+                    }
+                }else
+                if(texto[i]=='i'){
+                    i++;
+                    if(texto[i]=='m'){
+                        i++;
+                        if(texto[i]=='e'){
+                            i++;
+                            if(texto[i]=='s'){
+                                cadenadesencriptada +='i';
+                            }
+                        }
+                    }
+                }else
+                if(texto[i]=='o'){
+                    i++;
+                    if(texto[i]=='b'){
+                        i++;
+                        if(texto[i]=='e'){
+                            i++;
+                            if(texto[i]=='r'){
+                                cadenadesencriptada +='o';
+                            }
+                        }
+                    }
+                    
+                }else
+                if(texto[i]=='u'){
+                    i++;
+                    if(texto[i]=='f'){
+                        i++;
+                        if(texto[i]=='a'){
+                            i++;
+                            if(texto[i]=='t'){
+                                cadenadesencriptada +='u';
+                            }
+                        }
+                    }
+                    
+                }else{
+                    cadenadesencriptada += texto[i];
+                }
+            }
+            textareaR.value = cadenadesencriptada;
+        }
+    }
+
+    function Copiar() {
+        cambiarBloque();
+        textareaC = document.getElementById('texto_EnDes').value;
+        navigator.clipboard.writeText(textareaC)
+        .then(() =>{
+            alert("Texto copiado con exito");
+        })
+        .catch(err =>{
+            alert("Error: ", err);
+        })
+           
+    }
+    var botonEncriptar = document.querySelector(".Enc");
+	botonEncriptar.onclick = Encriptar;
+    var botonDesencriptar = document.querySelector(".Dese");
+	botonDesencriptar.onclick = Desencriptar;
+    var botonCopiar = document.querySelector(".copiar");
+	botonCopiar.onclick = Copiar;
+</script>
